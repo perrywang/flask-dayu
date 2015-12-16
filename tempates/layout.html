@@ -3,13 +3,20 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block header %}
+        {% block title %}
         <title>大愚律税财咨询系统</title>
+        {% endblock %}
+        {% block css %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/semantic.min.css') }}">
-        <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/semantic.min.js') }}"></script>
         {% endblock %}
     </head>
     <body>
+        <h1>大愚律税财咨询系统</h1>
+        {% block content %}
+        {% endblock %}
+        {% block scripts %}
+        <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/semantic.min.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
