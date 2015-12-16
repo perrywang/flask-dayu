@@ -1,0 +1,13 @@
+.form label {
+	margin-top:3em !important;
+	margin-bottom:1em !important;
+	font-size:medium !important;
+}
+
+.form .button {
+	margin-top:5em;
+}
+
+.ui.grid {
+	height : 90%;
+}

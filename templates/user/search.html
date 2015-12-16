@@ -1,0 +1,28 @@
+{% extends 'user/user_layout.html' %}
+{% block content %}
+    {{ super() }}
+    <div class="ui middle aligned grid" style="margin:0;height:80%;">
+	    <div class="column">
+		    <form class="ui form" action="/user/search" method="POST">
+			  <div class="field">
+			      <label>涉事地点：</label>
+			      <select name="business">
+			      	 <option>上海</option>
+			      	 <option>昆山</option>
+			      	 <option>苏州</option>
+			      </select>
+		      </div>
+			  <div class="field">
+			      <label>涉及业务：</label>
+			      <select name="business">
+			      	 <option>法律</option>
+			      	 <option>税务</option>
+			      	 <option>会计</option>
+			      	 <option>综合</option>
+			      </select>
+		      </div>
+			  <button class="ui green fluid button " type="submit">搜 索</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}
