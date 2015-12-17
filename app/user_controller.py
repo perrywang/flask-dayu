@@ -11,6 +11,7 @@ def user_login():
     if request.method == 'POST':
         logging_user = validate_login(request.form['username'], request.form['password'])
         if logging_user is not None:
+            session.permanent = True
             session['user'] = {'username':logging_user.name, 'uid':logging_user.id, 'roles':[role.name for role in logging_user.roles]}
             return redirect('/user/home')
         else:

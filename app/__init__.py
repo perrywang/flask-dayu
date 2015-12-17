@@ -23,9 +23,10 @@ def register():
     else:
         registering_user = register_user(request.form['username'],request.form['password'])
         if registering_user is not None:
+            session.permanent = True
             session['user'] = {'username':registering_user.name, 'uid':registering_user.id, 'roles':[role.name for role in registering_user.roles]} 
             return redirect('/user/home')
         else:
-        	return redirect('/register')
+            return redirect('/register')
 
 import controllers
