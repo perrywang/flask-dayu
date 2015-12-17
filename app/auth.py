@@ -24,7 +24,7 @@ def role_required(roles=['user']):
 			if has_role(required_roles):
 				return func(*args,**kargs)
 			else:
-				return 'Authorization Error'
+				return abort(403)
 		return wrapper
 
 	return decorate
