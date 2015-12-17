@@ -11,7 +11,7 @@
     <div class="ui middle aligned grid" style="margin:0;">
     	<div class="column">
     	    <h3 class="ui green center aligned header">大愚律师税务会计咨询系统</h3>
-    		<form class="ui form" action="/user/login" method="POST">
+    		<form class="ui form" action="{{ request.path }}" method="POST">
 			  <div class="field">
 			    <label>用户名：</label>
 			    <input type="text" name="username" placeholder="用户名">
