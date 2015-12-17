@@ -1,15 +1,15 @@
 {% extends 'layout.html' %}
 {% block css%}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/consultant.css') }}">
 {% endblock %}
 {% block content %}
 	<div class="ui green three item inverted menu" style="margin-bottom:0;">
 	  <a class="item">
-	    提问题
+	    答问题
 	  </a>
 	  <a class="item">
-	    看答案
+	    我的答案
 	  </a>
 	  <a class="item">
 	    管理
@@ -21,6 +21,6 @@
 {{ super() }}
 <script src="{{ url_for('static', filename='js/socket.io.min.js') }}">
 </script>
-<script src="{{ url_for('static', filename='js/user.js') }}">
+<script src="{{ url_for('static', filename='js/consultant.js') }}">
 </script>
 {% endblock %}

@@ -15,7 +15,7 @@ def consultant_login():
 
 @app.route('/consultant/home')
 def consultant_home():
-    pass
+    return render_template('consultant/home.html')
 
 
 @app.route('/consultant/<int:uid>/questions')
