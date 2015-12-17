@@ -14,8 +14,8 @@ class User(db.Model):
     account = db.relationship('Account', backref = db.backref('user'), uselist = False)
     profile = db.relationship('Profile', backref = db.backref('user'), uselist = False)
     roles = db.relationship('Role', secondary=user_role, backref=db.backref('users', lazy='dynamic'))
-    questions = db.relationship('Question', backref = db.backref('submitter', lazy = 'dynamic'))
-    answers = db.relationship('Answer', backref = db.backref('by', lazy = 'dynamic'))
+    questions = db.relationship('Question', backref = db.backref('submitter'), lazy='dynamic')
+    answers = db.relationship('Answer', backref = db.backref('by'), lazy='dynamic')
 
 class Account(db.Model):
     __tablename__ = 'accounts'
@@ -34,13 +34,13 @@ class Specialty(db.Model):
     __tablename__ = 'specialties'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
-    profiles = db.relationship('Profile', backref = db.backref('specialty', lazy = 'dynamic'))
+    profiles = db.relationship('Profile', backref = db.backref('specialty'))
 
 class Location(db.Model):
     __tablename__ = 'locations'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
-    profiles = db.relationship('Profile', backref = db.backref('location', lazy = 'dynamic'))
+    profiles = db.relationship('Profile', backref = db.backref('location'))
 
 class Profile(db.Model):
     __tablename__ = 'profiles'
@@ -56,7 +56,7 @@ class Category(db.Model):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
-    questions = db.relationship('Question', backref = db.backref('category', lazy = 'dynamic'))
+    questions = db.relationship('Question', backref = db.backref('category'))
 
 class Question(db.Model):
     __tablename__ = 'questions'

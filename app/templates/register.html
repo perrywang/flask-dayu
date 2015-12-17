@@ -10,17 +10,21 @@
 <body>
     <div class="ui middle aligned grid" style="margin:0;">
     	<div class="column">
-    	    <h3 class="ui green center aligned header">大愚律师税务会计咨询系统</h3>
-    		<form class="ui form" action="{{ request.path }}" method="POST">
+    	    <h3 class="ui green center aligned header">新用户注册</h3>
+    		<form class="ui form" action="/register" method="POST">
 			  <div class="field">
-			    <label>用户名：</label>
+			    <label>用户名：<span style="color:red">*</span></label>
 			    <input type="text" name="username" placeholder="用户名">
 			  </div>
 			  <div class="field">
-			      <label>密码：</label>
+			      <label>密码：<span style="color:red">*</span></label>
 			      <input type="password" name="password" placeholder="密码">
 		      </div>
-			  <button class="ui green fluid button " type="submit">登 录</button>
+              <div class="field">
+                  <label>确认密码：<span style="color:red">*</span></label>
+                  <input type="password" name="confirmed" placeholder="确认密码">
+              </div>
+			  <button class="ui green fluid button " type="submit">注 册</button>
 			</form>
     	</div>
     </div>   
