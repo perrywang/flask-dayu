@@ -1,6 +1,19 @@
 from flask import request, render_template, redirect, url_for, session
 from app import app
-from auth import validate_login, authenticated, role_required
+from auth import validate_login, authenticated, role_required, register_consultant
+
+
+@app.route('/consultant/register',methods = ['GET','POST'])
+@role_required(roles=['admin'])
+def consultant_register():
+    if request.method == 'GET':
+        return render_template('consultant_register.html')
+    else:
+        registering_user = register_consultant(request.form['username'],request.form['password'],request.form['speciality'],request.form['location'], request.form['value'])
+        if registering_user is not None:
+            return redirect('/consultant/register')
+        else:
+            return redirect('/consultant/register')
 
 @app.route('/consultant/login',methods=['GET','POST'])
 def consultant_login():
@@ -18,6 +31,7 @@ def consultant_login():
             abort(401)
 
 @app.route('/consultant/logout')
+@role_required(roles=['consultant','admin'])
 def consultant_logout():
     session.pop('user', None)
     return redirect('/consultant/login')

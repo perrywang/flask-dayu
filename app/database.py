@@ -1,5 +1,9 @@
 from app import db
+from models import init_data
 
 def init_db():
-    import models
+    db.drop_all()
     db.create_all()
+    init_data()
+
+

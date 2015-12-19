@@ -1,16 +1,11 @@
 .form label {
-	margin-top:2.5em !important;
 	margin-bottom:1em !important;
-	font-size:medium !important;
 }
 
 .form .button {
 	margin-top:5em;
 }
 
-.ui.grid {
-	height : 90%;
-}
 
 .ui.menu {
 	border-radius: 0;

@@ -14,19 +14,6 @@ from auth import register_user, authenticated
 def home():
     return 'hello dayu'
 
-@app.route('/register',methods = ['GET','POST'])
-def register():
-    if authenticated():
-        return '请先注销当前登录'
-    if request.method == 'GET':
-        return render_template('register.html')
-    else:
-        registering_user = register_user(request.form['username'],request.form['password'])
-        if registering_user is not None:
-            session.permanent = True
-            session['user'] = {'username':registering_user.name, 'uid':registering_user.id, 'roles':[role.name for role in registering_user.roles]} 
-            return redirect('/user/home')
-        else:
-            return redirect('/register')
+
 
 import controllers

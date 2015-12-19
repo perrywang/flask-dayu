@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>大愚律税财咨询系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/semantic.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+    <div class="ui middle aligned grid" style="margin:0;">
+    	<div class="column">
+    	  <h3 class="ui green center aligned header">咨询师注册</h3>
+    		<form class="ui form" action="/consultant/register" method="POST">
+			  　<div class="field">
+			    　<label>用户名：<span style="color:red">*</span></label>
+			    　<input type="text" name="username" placeholder="用户名" style="margin-top:-1em">
+			  　</div>
+			  　<div class="field" style="margin-top:-2.5em">
+			      <label>密码：<span style="color:red">*</span></label>
+			      <input type="password" name="password" placeholder="密码">
+		      </div>
+          <div class="field">
+              <label>确认密码：<span style="color:red">*</span></label>
+              <input type="password" name="confirmed" placeholder="确认密码">
+          </div>
+          <div class="ui divider" style="margin-top:3em;"></div>
+　　　　　<div class="field">
+            <label>专业：</label>
+            <select name="speciality">
+               <option>法律</option>
+               <option>税务</option>
+               <option>会计</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>地点：</label>
+            <select name="location">
+               <option>上海</option>
+               <option>昆山</option>
+               <option>苏州</option>
+            </select>
+          </div>
+          <div class="field">
+          　<label>回答消耗点数：<span style="color:red">*</span></label>
+          　<input type="text" name="value" placeholder="点数" style="margin-top:-1em">
+        　</div>
+			  <button class="ui green fluid button " type="submit">注 册</button>
+			</form>
+    	</div>
+    </div>   
+	<script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/semantic.min.js') }}"></script>
+  <script>
+     $(function(){
+        $('select').dropdown();
+     });
+  </script>
+</body>
+</html>

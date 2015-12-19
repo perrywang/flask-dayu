@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from app import db
 
@@ -47,6 +49,7 @@ class Profile(db.Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, db.ForeignKey('users.id'))
     value = Column(Integer)
+    desc = Column(String(512))
     specialty_id = Column(Integer, db.ForeignKey('specialties.id'))
     location_id = Column(Integer, db.ForeignKey('locations.id'))
     created_on = Column(DateTime, server_default=db.func.now())
@@ -76,4 +79,47 @@ class Answer(db.Model):
     by_id = Column(Integer, db.ForeignKey('users.id'))
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+
+def init_data():
+       
+    admin = Role(name='admin')
+    consultant = Role(name='consultant')
+    userRole = Role(name='user')
+    
+    shanghai = Location(name=u'上海')
+    kunshan = Location(name=u'昆山')
+    suzhou = Location(name=u'苏州')
+
+    law = Specialty(name=u'法律')
+    account = Specialty(name=u'会计')
+    tax = Specialty(name=u'税务')
+
+    user = User(name='falcon',password='falcon') 
+    user.roles = [admin, consultant, userRole]
+    profile = Profile(value=100)
+    profile.location = shanghai
+    profile.specialty = law
+    user.profile = profile
+    db.session.add(user)
+    db.session.commit()
+
+    consultant1 = User(name='c1',password='password')
+    consultant1.roles = [consultant, userRole]
+    profile2 = Profile(value=100)
+    profile2.location = suzhou
+    profile2.specialty = tax
+    consultant1.profile = profile2
+    db.session.add(consultant1)
+    db.session.commit()
+
+    user1 = User(name='u1',password='password')
+    user1.roles = [userRole]
+    account = Account(points = 100)
+    user1.account = account
+    db.session.add(user1)
+    db.session.commit()
+    
+
+
+   
 

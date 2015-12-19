@@ -1,7 +1,9 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 from functools import wraps
 from flask import redirect, request, session, abort
-from app import db
-from models import User, Role
+from app import db, app
+from models import User, Role, Profile, Specialty, Location
 
 def auth_required(func):
 	@wraps(func)
@@ -31,10 +33,19 @@ def role_required(roles=['user']):
 		
 def register_user(username, password):
 	user = User(name=username, password=password)
-	user.roles = [Role.query.get(1)]
+	user.roles = [Role.query.filter_by(name='user').first()]
 	db.session.add(user)
 	db.session.commit()
 	return user
+
+def register_consultant(username, password, specialty, location, value):
+	consultant = User(name=username, password=password)
+	consultant.roles = [Role.query.filter_by(name='user').first(), Role.query.filter_by(name='consultant').first()]
+	profile = Profile(specialty = Specialty.query.filter_by(name=specialty).first(), location = Location.query.filter_by(name=location).first(), value = int(value))
+	consultant.profile = profile
+	db.session.add(consultant)
+	db.session.commit()
+	return register_consultant
 
 def validate_login(username, password):
 	user = User.query.filter_by(name=username).first()
