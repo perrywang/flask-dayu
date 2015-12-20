@@ -28,8 +28,6 @@ class Account(db.Model):
     points = Column(Integer, default=0)
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-    def __str__(self):
-        return self.user.name+'_'+'account'
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -65,8 +63,6 @@ class Profile(db.Model):
     location_id = Column(Integer, db.ForeignKey('locations.id'))
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-    def __str__(self):
-        return self.user.name+'_'+'profile'
 
 class Category(db.Model):
     __tablename__ = 'categories'
