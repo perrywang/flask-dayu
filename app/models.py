@@ -18,6 +18,8 @@ class User(db.Model):
     roles = db.relationship('Role', secondary=user_role, backref=db.backref('users', lazy='dynamic'))
     questions = db.relationship('Question', backref = db.backref('submitter'), lazy='dynamic')
     answers = db.relationship('Answer', backref = db.backref('by'), lazy='dynamic')
+    def __str__(self):
+        return self.name
 
 class Account(db.Model):
     __tablename__ = 'accounts'
@@ -26,40 +28,53 @@ class Account(db.Model):
     points = Column(Integer, default=0)
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+    def __str__(self):
+        return self.user.name+'_'+'account'
 
 class Role(db.Model):
     __tablename__ = 'roles'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
+    def __str__(self):
+        return self.name
 
 class Specialty(db.Model):
     __tablename__ = 'specialties'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
     profiles = db.relationship('Profile', backref = db.backref('specialty'))
+    def __str__(self):
+        return self.name
 
 class Location(db.Model):
     __tablename__ = 'locations'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
     profiles = db.relationship('Profile', backref = db.backref('location'))
+    def __str__(self):
+        return self.name
 
 class Profile(db.Model):
     __tablename__ = 'profiles'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, db.ForeignKey('users.id'))
     value = Column(Integer)
+    real_name = Column(String(32))
     desc = Column(String(512))
     specialty_id = Column(Integer, db.ForeignKey('specialties.id'))
     location_id = Column(Integer, db.ForeignKey('locations.id'))
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+    def __str__(self):
+        return self.user.name+'_'+'profile'
 
 class Category(db.Model):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
     questions = db.relationship('Question', backref = db.backref('category'))
+    def __str__(self):
+        return self.name
 
 class Question(db.Model):
     __tablename__ = 'questions'
