@@ -6,3 +6,4 @@
     >>>from app.database import init_db
     >>>init_db()
     python server.py
+    visit localhost:5000/user/login, /consultant/login, /admin to access website
