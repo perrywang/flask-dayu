@@ -19,7 +19,7 @@ def create_question():
     if not cid == '':
         question = Question(submitter_id=session['user']['uid'], to_id=int(cid), description=request.form['description'])
         db.session.commit()
-        return redirect('user/search')
+        return redirect('/questions/new?to='+cid)
 
 @app.route('/questions')
 def questions():
