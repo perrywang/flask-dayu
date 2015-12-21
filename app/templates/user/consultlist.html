@@ -6,18 +6,23 @@
 	    {% for consultant in consultants %}
 		<div class="item">
 		    <div class="content">
-		      <a class="header">{{ consultant.name }}</a>
+		      <a class="header">{{ consultant.real_name }}</a>
+              <div style="font-size: 0.8em;font-weight: bold;">消耗点数：{{ consultant.value }}</div>
 		      <div class="meta">
-		        <span class="cinema">状态</span>
+                {% if consultant.status == 'online' %}
+		        <div class="ui tiny green label">在线</div>
+                {% else %}
+                <div class="ui tiny gray label">离线</div>
+                {% endif %}
 		      </div>
 		      <div class="description">
 		        <p></p>
 		      </div>
 		      <div class="extra">
-		        <div class="ui right floated mini green button">
+		        <a class="ui right floated mini green button" href="/questions/new?to={{ consultant.id }}">
 		          咨询
 		          <i class="right chevron icon"></i>
-		        </div>
+		        </a>
 		      </div>
 		    </div>
 	    </div>

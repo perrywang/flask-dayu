@@ -11,12 +11,14 @@ class User(db.Model):
     name = Column(String(50), unique=True)
     email = Column(String(120), unique=True)
     password = Column(String(50))
+    status = Column(String(32), default='offline')
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
     account = db.relationship('Account', backref = db.backref('user'), uselist = False)
     profile = db.relationship('Profile', backref = db.backref('user'), uselist = False)
     roles = db.relationship('Role', secondary=user_role, backref=db.backref('users', lazy='dynamic'))
-    questions = db.relationship('Question', backref = db.backref('submitter'), lazy='dynamic')
+    questions_submitted = db.relationship('Question', backref = db.backref('submitter'), lazy='dynamic', foreign_keys='Question.submitter_id')
+    questions_to = db.relationship('Question', backref = db.backref('to'), lazy='dynamic', foreign_keys='Question.to_id')
     answers = db.relationship('Answer', backref = db.backref('by'), lazy='dynamic')
     def __str__(self):
         return self.name
@@ -79,6 +81,7 @@ class Question(db.Model):
     status = Column(Boolean, default=False)
     category_id = Column(Integer, db.ForeignKey('categories.id'))
     submitter_id = Column(Integer,db.ForeignKey('users.id'))
+    to_id = Column(Integer,db.ForeignKey('users.id'))
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 

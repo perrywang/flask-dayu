@@ -50,6 +50,8 @@ def register_consultant(username, password, specialty, location, value):
 def validate_login(username, password):
 	user = User.query.filter_by(name=username).first()
 	if user.password == password:
+		user.status = 'online'
+		db.session.commit()
 		return user
 	else:
 		abort(401)

@@ -62,10 +62,12 @@ def user_search():
     else:
         spec = request.form['specialty']
         loc = request.form['location']
-        consultants = User.query.join(Profile).filter(Profile.specialty.has(name=spec),Profile.location.has(name=loc)).all()
+        consultants = User.query.with_entities(User.id, User.status, Profile.desc, Profile.real_name, Profile.value).join(Profile).filter(Profile.specialty.has(name=spec),Profile.location.has(name=loc)).all()
         return render_template('user/consultlist.html',consultants=consultants)
 
 @app.route('/user/<int:uid>/questions')
 @auth_required
 def questions_submitted_by(uid):
     pass
+
+

@@ -1,0 +1,19 @@
+{% extends 'user/user_layout.html' %}
+{% block content %}
+    {{ super() }}
+    <div class="ui middle aligned grid" style="margin:0;height:80%;">
+	    <div class="column">
+		    <form class="ui form" action="/questions/create?to={{ to.id }}" method="POST">
+              <div class="field">
+			      <h3>{{ to.profile.real_name }}</h3>
+              </div>
+			  <div class="field">
+			      <label>问题描述：</label>
+			      <textarea name="description">
+                  </textarea>
+		      </div>
+			  <button class="ui green fluid button " type="submit">提 交</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}
