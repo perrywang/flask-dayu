@@ -67,4 +67,7 @@ def has_role(required_roles):
 		if role in required_roles:
 			return True
 	return False
+
+def current_user():
+    return session['user']
     

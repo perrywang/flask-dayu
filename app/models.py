@@ -79,6 +79,7 @@ class Question(db.Model):
     id = Column(Integer, primary_key=True)
     description = Column(String)
     status = Column(Boolean, default=False)
+    answer = db.relationship('Answer', backref = db.backref('question'), uselist=False)
     category_id = Column(Integer, db.ForeignKey('categories.id'))
     submitter_id = Column(Integer,db.ForeignKey('users.id'))
     to_id = Column(Integer,db.ForeignKey('users.id'))
@@ -91,6 +92,7 @@ class Answer(db.Model):
     description = Column(String)
     feedback = Column(Boolean, default=True)
     by_id = Column(Integer, db.ForeignKey('users.id'))
+    question_id = Column(Integer,db.ForeignKey('questions.id'))
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 

@@ -1,0 +1,22 @@
+{% extends 'consultant/consultant_layout.html' %}
+{% block content %}
+{{ super() }}
+<div class="ui blue segment" style="width:95%;margin:2em auto;padding-top:2em;">
+	<form class="ui form" action="/answers/for/{{question.id}}" method="POST">
+		<div class="header">{{ question.submitter.name }} 问：</div>
+		<p>{{ question.description }}</p>
+		<div class="ui divider"></div>
+		<div class="field">
+		    <label>添加答案：</label>
+		    {% if question.answer == None %}
+			<textarea name="answer" placeholder="添加答案"></textarea>
+			{% else %}
+			<textarea name="answer">{{ question.answer.description }}</textarea>
+			{% endif %}
+		</div>
+		<div class="field">
+			<button type="submit" class="ui fluid blue button">提 交</button>
+		</div>
+	</form>
+</div>
+{% endblock %}

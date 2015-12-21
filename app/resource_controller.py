@@ -1,7 +1,7 @@
 from flask import render_template, request, session, redirect
-from models import User, Question
+from models import User, Question, Answer
 from app import app, db
-from auth import auth_required
+from auth import auth_required, current_user
 
 
 @app.route('/questions/new')
@@ -24,15 +24,66 @@ def create_question():
 
 @app.route('/questions')
 def questions():
-    return 'hello questions'
+    status = request.args.get('status','all')
+    if status == 'all':
+        questions = Question.query.all()
+    elif status == 'answered':
+        questions = Question.query.filter(Question.answer != None).all()
+    else:
+        questions = Question.query.filter(Question.answer == None).all()
+
+    return render_template('consultant/consultant_questionlist.html',questions=questions)
+
+@app.route('/questions/by/<int:uid>')
+def questions_by(uid):
+    status = request.args.get('status','all')
+    if status == 'all':
+        questions = User.query.get(uid).questions_submitted.all()
+    elif status == 'answered':
+        questions = User.query.get(uid).questions_submitted.filter(Question.answer != None).all()
+    else:
+        questions = User.query.get(uid).questions_submitted.filter(Question.answer == None).all()
+    for question in questions:
+        app.logger.info(question.description)
+    return render_template('user/user_questionlist.html',questions=questions)
+
+@app.route('/questions/to/<int:uid>')
+def questions_to(uid):
+    status = request.args.get('status','all')
+    if status == 'all':
+        questions = User.query.get(uid).questions_to.all()
+    elif status == 'answered':
+        questions = User.query.get(uid).questions_to.filter(Question.answer != None).all()
+    else:
+        questions = User.query.get(uid).questions_to.filter(Question.answer == None).all()
+    
+    return render_template('consultant/consultant_questionlist.html',questions=questions)
 
 @app.route('/questions/<int:qid>')
 def question(qid):
     pass
 
-@app.route('/answers')
-def answers():
-    pass
+@app.route('/answers/for/<int:qid>',methods=['GET','POST'])
+def answer_for(qid):
+    question = Question.query.get(qid)
+    if request.method == 'GET':
+        return render_template('consultant/answering.html',question=question)
+    else:
+        if question.answer == None:
+            answer = Answer(question_id=qid, by_id=current_user()['uid'], description = request.form['answer'])
+            db.session.add(answer)
+            db.session.commit()
+        else:
+            question.answer.description = request.form['answer']
+            db.session.commit()
+        return redirect('/answers/me')
+
+
+@app.route('/answers/me',methods=['GET'])
+def answer_by():
+    uid = current_user()['uid']
+    questions = Question.query.join(Answer).filter(Answer.by_id == uid).all()
+    return render_template('consultant/consultant_questionlist.html',questions=questions)
 
 @app.route('/answers/<int:aid>')
 def answer(aid):

@@ -4,11 +4,11 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/consultant.css') }}">
 {% endblock %}
 {% block content %}
-	<div class="ui green three item inverted menu" style="margin-bottom:0;">
-	  <a class="item">
+	<div class="ui blue three item inverted menu" style="margin-bottom:0;">
+	  <a class="item" href="/questions?status=no">
 	    答问题
 	  </a>
-	  <a class="item">
+	  <a class="item" href="/answers/me">
 	    我的答案
 	  </a>
 	  <a class="item">

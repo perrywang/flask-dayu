@@ -1,0 +1,32 @@
+{% extends 'user/user_layout.html' %}
+{% block content %}
+{{ super() }}
+<div class="ui green segment" style="width:95%;margin:2em auto;">
+	<div class="ui divided items">
+		{% for question in questions %}		
+		<div class="link item" style="margin-bottom:0.5em;padding-top:0.5em;">
+		    <div class="content">
+		    	<div class="description">{{ question.description }}</div>
+		    	{% if question.answer != None %}
+                <div class="description">
+                	<p>
+			        	{{ question.answer.by.profile.real_name }} 回答了：
+			        </p>
+			        <p>
+			        	{{ question.answer.description }}
+			        </p>
+                </div>
+                <div class="extra">
+                	<a class="ui right floated green mini button">评价该回答</a>
+                </div>
+                {% else %}
+                <div class="description">
+                	<p>请等待专家回答</p>
+                </div>
+                {% endif %}
+		    </div>
+		</div>		
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
