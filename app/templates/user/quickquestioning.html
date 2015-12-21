@@ -4,15 +4,18 @@
     <div class="ui middle aligned grid" style="margin:0;height:80%;">
 	    <div class="column">
 	        {% if question == None %}
-		    <form class="ui form" action="/questions/create?to={{ to.id }}" method="POST">
+		    <form class="ui form" action="/quick/create" method="POST">
 		    {% else %}
-            <form class="ui form" action="/questions/{{question.id}}/edit" method="POST">
+            <form class="ui form" action="/quick/{{question.id}}/edit" method="POST">
             {% endif %}
-		      {% if to != None %}
               <div class="field">
-			      <h3>向 {{ to.profile.real_name }} 提问：</h3>
-              </div>
-              {% endif %}
+			      <label>涉及业务：</label>
+			      <select name="specialty">
+			      	 <option>法律</option>
+			      	 <option>税务</option>
+			      	 <option>会计</option>
+			      </select>
+		      </div>
 			  <div class="field">
 			      <label>问题描述：</label>
 			      {% if question == None %}

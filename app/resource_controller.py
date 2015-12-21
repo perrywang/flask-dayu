@@ -7,20 +7,38 @@ from auth import auth_required, current_user
 @app.route('/questions/new')
 def new_question():
     cid = request.args.get('to', '')
+    consultant = None
     if not cid == '':
         consultant = User.query.get(int(cid))
-        return render_template('user/questioning.html', to=consultant)
+        return render_template('user/questioning.html', to=consultant, question=None)
 
+@app.route('/quick/new')
+def quick_new_question():
+    return render_template('user/quickquestioning.html', question=None)
+
+@app.route('/quick/create')
+def quick_create_question():
+    pass
+
+@app.route('/questions/<int:qid>/edit',methods=['GET','POST'])
+def edit_question(qid):
+    question = Question.query.get(qid)
+    if request.method == 'GET':
+        return render_template('user/questioning.html', question = question, to=question.to)
+    else:
+        question.description = request.form['description']
+        db.session.commit()
+        return redirect('/questions/by/' + str(current_user()['uid']))
 
 @app.route('/questions/create', methods=['POST'])
 @auth_required
 def create_question():
-    cid = request.args.get('to', '')
-    if not cid == '':
-        question = Question(submitter_id=session['user']['uid'], to_id=int(cid), description=request.form['description'])
+    toid = request.args.get('to', '')
+    if not toid == '':
+        question = Question(submitter_id=session['user']['uid'], to_id=int(toid), description=request.form['description'])
         db.session.add(question)
         db.session.commit()
-        return redirect('/questions/new?to='+cid)
+        return redirect('/questions/by/'+str(current_user()['uid']))
 
 @app.route('/questions')
 def questions():

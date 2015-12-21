@@ -17,11 +17,14 @@
 			        </p>
                 </div>
                 <div class="extra">
-                	<a class="ui right floated green mini button">评价该回答</a>
+                	<a class="ui right floated blue mini button">评价回答</a>
                 </div>
                 {% else %}
                 <div class="description">
                 	<p>请等待专家回答</p>
+                </div>
+                <div class="extra">
+                	<a class="ui right floated green mini button" href="/questions/{{question.id}}/edit">编辑问题</a>
                 </div>
                 {% endif %}
 		    </div>
