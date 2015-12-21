@@ -18,6 +18,7 @@ def create_question():
     cid = request.args.get('to', '')
     if not cid == '':
         question = Question(submitter_id=session['user']['uid'], to_id=int(cid), description=request.form['description'])
+        db.session.add(question)
         db.session.commit()
         return redirect('/questions/new?to='+cid)
 
