@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-from flask import request, render_template, redirect, url_for, session
+from flask import request, render_template, redirect, session
+from flask_socketio import socketio, send, emit
 from app import app
 from auth import register_user, validate_login, auth_required, authenticated, has_role
-from sqlalchemy import and_
 from models import User, Profile
 
 

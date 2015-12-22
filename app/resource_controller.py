@@ -1,8 +1,7 @@
 from flask import render_template, request, session, redirect
 from models import User, Question, Answer
-from app import app, db
+from app import app, db, socketio
 from auth import auth_required, current_user
-
 
 @app.route('/questions/new')
 def new_question():
@@ -38,6 +37,7 @@ def create_question():
         question = Question(submitter_id=session['user']['uid'], to_id=int(toid), description=request.form['description'])
         db.session.add(question)
         db.session.commit()
+        socketio.emit('question_added', 'question created', room='consultants', namespace='/consultants')
         return redirect('/questions/by/'+str(current_user()['uid']))
 
 @app.route('/questions')

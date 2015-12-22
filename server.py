@@ -1,7 +1,7 @@
-from app import app
+from app import app, socketio
 from app.admin import start_admin
 
 if __name__ == '__main__':
     app.debug = True
     start_admin(app)
-    app.run(host='0.0.0.0')
+    socketio.run(app,host='0.0.0.0')

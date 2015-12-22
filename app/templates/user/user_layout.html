@@ -16,7 +16,7 @@
 	  </a>
 	</div>
 {% endblock %}
-<h1>用户主页</h1>
+<div id="uid" style="display:none;">{{ session['uid'] }}</div>
 {% block scripts %}
 {{ super() }}
 <script src="{{ url_for('static', filename='js/socket.io.min.js') }}">
