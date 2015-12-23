@@ -1,11 +1,10 @@
 {% extends 'user/user_layout.html' %}
 {% block sub_content %}
-    <div class="ui middle aligned grid" style="margin:0;height:80%;">
+    <div class="ui middle aligned grid" style="margin:15% 0 0 0;">
 	    <div class="column">
 		    <form class="ui form" action="/user/search" method="POST">
 			  <div class="field">
 			      <label>涉事地点：</label>
-
 			      <select name="location">
                   {% for location in locations %}
 			      	 <option>{{ location.name }}</option>
