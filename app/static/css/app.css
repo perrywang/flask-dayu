@@ -11,10 +11,10 @@
 	border-radius: 0;
 }
 
-.ui.menu .item {
+.ui.green.menu .item {
 	font-weight : 700;
 }
 
-.menu a.item {
+.ui.green.menu a.item {
 	color : white !important;
 }

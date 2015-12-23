@@ -80,4 +80,4 @@ def has_role(required_roles):
 
 
 def current_user():
-    return session['user']
+    return User.query.get(session['user']['uid'])

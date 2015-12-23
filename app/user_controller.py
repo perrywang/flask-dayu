@@ -2,8 +2,8 @@
 # -*- coding: UTF-8 -*-
 from flask import request, render_template, redirect, session
 from sqlalchemy import and_, or_
-from app import app
-from auth import register_user, validate_login, auth_required, authenticated, has_role
+from app import app, db
+from auth import register_user, validate_login, auth_required, authenticated, has_role, current_user
 from models import User, Profile, Category, Location
 
 
@@ -71,5 +71,24 @@ def user_search():
 @auth_required
 def questions_submitted_by(uid):
     pass
+
+
+@app.route('/user/online')
+@auth_required
+def user_online():
+    #user = User.query.get(session['user']['uid'])
+    user = current_user()
+    user.status = 'online'
+    db.session.commit()
+    return 'online'
+
+@app.route('/user/offline')
+@auth_required
+def user_offline():
+    #user = User.query.get(session['user']['uid'])
+    user = current_user();
+    user.status = 'offline'
+    db.session.commit()
+    return 'offline'
 
 

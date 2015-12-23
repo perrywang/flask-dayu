@@ -13,24 +13,58 @@
                 提问题
             </a>
             <a class="item">
-                管理
-                <i class="sidebar icon">
-                </i>
+                <span>管 理</span>
+                <i class="inverted large sidebar icon" style="margin-left:1em;"></i>
             </a>
         </div>
         {% block sub_content %}
         {% endblock %}
     </div>
-    <div class="ui right vertical thin sidebar menu">
-        <a class="item">
-            Home
-        </a>
-        <a class="item">
-            Home
-        </a>
-        <a class="item">
-            Home
-        </a>
+    <div class="ui right vertical sidebar menu" style="width:50%;padding-top:0.5em;">
+        <div class="item">
+            <div class="header">问题管理</div>
+            <div class="ui divider" style="margin-top:1em;margin-bottom:0;"></div>
+            <div class="menu">
+                <a class="item" href="/questions/by/{{ session['user']['uid'] }}">所有问题
+                    <div class="ui green label">23</div>
+                </a>
+                <div class="item">
+                    <div class="ui divider" style="margin:0;"></div>
+                </div>     
+                <a class="item" href="/questions/by/{{ session['user']['uid'] }}">已经回答
+                    <div class="ui green label">15</div>
+                </a>
+                <div class="item">
+                    <div class="ui divider" style="margin:0;"></div>
+                </div>     
+                <a class="item" href="/questions/by/{{ session['user']['uid'] }}">等待回答
+                    <div class="ui gray label">8</div>
+                </a>
+            </div>
+        </div>
+        <div class="item">
+            <div class="header">个人管理</div>
+            <div class="ui divider" style="margin-top:1em;margin-bottom:0;"></div>
+            <div class="menu">
+                <a class="item" href="">我的积分</a>
+                <div class="item">
+                    <div class="ui divider" style="margin:0;"></div>
+                </div>     
+                <a class="item" href="">个人资料
+                </a>
+                <div class="item">
+                    <div class="ui divider" style="margin:0;"></div>
+                </div>     
+                <a class="item" href="">退出系统
+                </a>
+            </div>
+        </div>
+        <div class="item">
+            <div id="status" class="ui toggle checkbox">
+                <input type="checkbox" name="status">
+                <label>在线</label>
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block scripts %}
@@ -41,5 +75,19 @@
     </script>
     <script>
         $('.sidebar.menu').sidebar('attach events', '.sidebar.icon');
+        $('#status').checkbox('check').checkbox(
+            {
+                onChecked: function(){
+                    $.get('/user/online',function(){
+                        $('#status label').text('在线');
+                    });
+                },
+                onUnchecked: function(){
+                    $.get('/user/offline', function(){
+                        $('#status label').text('离线');
+                    });   
+                }
+            }
+        );
     </script>
 {% endblock %}

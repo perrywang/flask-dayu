@@ -27,7 +27,7 @@ def edit_question(qid):
     else:
         question.description = request.form['description']
         db.session.commit()
-        return redirect('/questions/by/' + str(current_user()['uid']))
+        return redirect('/questions/by/' + str(current_user().id))
 
 @app.route('/questions/create', methods=['POST'])
 @auth_required
@@ -38,7 +38,7 @@ def create_question():
         db.session.add(question)
         db.session.commit()
         socketio.emit('question_added', 'question created', room='consultants', namespace='/consultants')
-        return redirect('/questions/by/'+str(current_user()['uid']))
+        return redirect('/questions/by/'+str(current_user().id))
 
 @app.route('/questions')
 def questions():

@@ -3,5 +3,6 @@ from app.admin import start_admin
 
 if __name__ == '__main__':
     app.debug = True
+    app.threaded = True
     start_admin(app)
     socketio.run(app,host='0.0.0.0')
