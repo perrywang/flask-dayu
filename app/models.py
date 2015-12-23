@@ -54,6 +54,7 @@ class Profile(db.Model):
     value = Column(Integer)
     real_name = Column(String(32))
     desc = Column(String(512))
+    mobile = Column(String(32))
     category_id = Column(Integer, db.ForeignKey('categories.id'))
     location_id = Column(Integer, db.ForeignKey('locations.id'))
     created_on = Column(DateTime, server_default=db.func.now())
@@ -107,6 +108,11 @@ def init_data():
     hangzhou = Location(name=u'杭州')
 
     law = Category(name=u'法律')
+
+    minfa = Category(name=u'民法', parent = law)
+    xingfa = Category(name=u'刑法', parent = law)
+    susongfa = Category(name=u'诉讼法', parent = law)
+
     account = Category(name=u'会计')
     tax = Category(name=u'税务')
 
@@ -127,27 +133,42 @@ def init_data():
 
     locations = [shanghai, kunshan, suzhou, zhenjiang, wuxi, taizhou, hangzhou]
 
-    categories = [law, account, tax]
+    categories = [law, minfa, xingfa, susongfa, account, tax]
 
     falcon = User(name='falcon',password='falcon')
     falcon.roles = [admin, consultant, userRole]
     db.session.add(admin)
     db.session.commit()
 
+    levels = [u'殿堂级律师', u'资深律师', u'高级律师', u'中级律师', u'初级律师']
+
+    values = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+
+    real_names = [u'管理员', u'张宏', u'徐峥', u'张鹏', u'李成浩', u'张华', u'徐宏', u'张峥', u'周鹏', u'高飞', u'张爱国']
+
+    status = ['online', 'offline']
+
     for i in range(1, 10):
         c = User(name='c'+str(i), password = 'password')
         c.roles = [consultant, userRole]
-        profile = Profile(value=100)
+        c.status = random.choice(status)
+        profile = Profile()
+        profile.value = random.choice(values)
         profile.location = random.choice(locations)
         profile.category = random.choice(categories)
+        profile.desc = random.choice(levels)
+        profile.real_name = real_names[i]
         c.profile = profile
         db.session.add(c)
         db.session.commit()
 
+    points = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+
     for i in range(1, 20):
         u = User(name='u'+str(i),password='password')
         u.roles = [userRole]
-        account = Account(points = 100)
+        account = Account()
+        account.points = random.choice(points)
         u.account = account
         db.session.add(u)
         db.session.commit()
