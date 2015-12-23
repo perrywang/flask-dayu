@@ -148,7 +148,7 @@ def init_data():
 
     status = ['online', 'offline']
 
-    for i in range(1, 10):
+    for i in range(1, 11):
         c = User(name='c'+str(i), password = 'password')
         c.roles = [consultant, userRole]
         c.status = random.choice(status)
@@ -164,7 +164,7 @@ def init_data():
 
     points = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
-    for i in range(1, 20):
+    for i in range(1, 21):
         u = User(name='u'+str(i),password='password')
         u.roles = [userRole]
         account = Account()
