@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 from flask import request, render_template, redirect, session
-from flask_socketio import socketio, send, emit
+from sqlalchemy import and_, or_
 from app import app
 from auth import register_user, validate_login, auth_required, authenticated, has_role
-from models import User, Profile
+from models import User, Profile, Category, Location
 
 
 @app.route('/user/register',methods = ['GET','POST'])
@@ -58,11 +58,13 @@ def user_home():
 @auth_required
 def user_search():
     if request.method == 'GET':
-        return render_template('user/search.html')
+        locations = Location.query.all();
+        categories = Category.query.all();
+        return render_template('user/search.html', locations = locations, categories = categories)
     else:
-        spec = request.form['specialty']
+        cat = request.form['category']
         loc = request.form['location']
-        consultants = User.query.with_entities(User.id, User.status, Profile.desc, Profile.real_name, Profile.value).join(Profile).filter(Profile.specialty.has(name=spec),Profile.location.has(name=loc)).all()
+        consultants = User.query.with_entities(User.id, User.status, Profile.desc, Profile.real_name, Profile.value).join(Profile).join(Category).join(Location).filter(and_(Location.name == loc, or_(Category.name == cat, Category.parent.has(name=cat)))).all()
         return render_template('user/consultlist.html',consultants=consultants)
 
 @app.route('/user/<int:uid>/questions')

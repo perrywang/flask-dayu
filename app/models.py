@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from app import db
+import random
 
 user_role = db.Table('user_role', db.Column('user_id', db.Integer, db.ForeignKey('users.id')), db.Column('role_id', db.Integer, db.ForeignKey('roles.id')))
 
@@ -38,14 +39,6 @@ class Role(db.Model):
     def __str__(self):
         return self.name
 
-class Specialty(db.Model):
-    __tablename__ = 'specialties'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True)
-    profiles = db.relationship('Profile', backref = db.backref('specialty'))
-    def __str__(self):
-        return self.name
-
 class Location(db.Model):
     __tablename__ = 'locations'
     id = Column(Integer, primary_key=True)
@@ -61,7 +54,7 @@ class Profile(db.Model):
     value = Column(Integer)
     real_name = Column(String(32))
     desc = Column(String(512))
-    specialty_id = Column(Integer, db.ForeignKey('specialties.id'))
+    category_id = Column(Integer, db.ForeignKey('categories.id'))
     location_id = Column(Integer, db.ForeignKey('locations.id'))
     created_on = Column(DateTime, server_default=db.func.now())
     updated_on = Column(DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -69,8 +62,11 @@ class Profile(db.Model):
 class Category(db.Model):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True)
+    parent_id = Column(Integer, db.ForeignKey('categories.id'))
     name = Column(String(50), unique=True)
-    questions = db.relationship('Question', backref = db.backref('category'))
+    questions = db.relationship('Question', backref = db.backref('category'), foreign_keys='Question.category_id')
+    profiles = db.relationship('Profile', backref = db.backref('category'), foreign_keys = 'Profile.category_id')
+    sub_categories = db.relationship('Category', backref=db.backref('parent', remote_side='Category.id'))
     def __str__(self):
         return self.name
 
@@ -101,39 +97,62 @@ def init_data():
     admin = Role(name='admin')
     consultant = Role(name='consultant')
     userRole = Role(name='user')
-    
+
     shanghai = Location(name=u'上海')
     kunshan = Location(name=u'昆山')
     suzhou = Location(name=u'苏州')
+    zhenjiang = Location(name=u'镇江')
+    wuxi = Location(name=u'无锡')
+    taizhou = Location(name=u'台州')
+    hangzhou = Location(name=u'杭州')
 
-    law = Specialty(name=u'法律')
-    account = Specialty(name=u'会计')
-    tax = Specialty(name=u'税务')
+    law = Category(name=u'法律')
+    account = Category(name=u'会计')
+    tax = Category(name=u'税务')
 
-    user = User(name='falcon',password='falcon') 
-    user.roles = [admin, consultant, userRole]
-    profile = Profile(value=100)
-    profile.location = shanghai
-    profile.specialty = law
-    user.profile = profile
-    db.session.add(user)
+    db.session.add(admin)
+    db.session.add(consultant)
+    db.session.add(userRole)
+    db.session.add(shanghai)
+    db.session.add(kunshan)
+    db.session.add(suzhou)
+    db.session.add(zhenjiang)
+    db.session.add(wuxi)
+    db.session.add(taizhou)
+    db.session.add(hangzhou)
+    db.session.add(law)
+    db.session.add(account)
+    db.session.add(tax)
     db.session.commit()
 
-    consultant1 = User(name='c1',password='password')
-    consultant1.roles = [consultant, userRole]
-    profile2 = Profile(value=100)
-    profile2.location = suzhou
-    profile2.specialty = tax
-    consultant1.profile = profile2
-    db.session.add(consultant1)
+    locations = [shanghai, kunshan, suzhou, zhenjiang, wuxi, taizhou, hangzhou]
+
+    categories = [law, account, tax]
+
+    falcon = User(name='falcon',password='falcon')
+    falcon.roles = [admin, consultant, userRole]
+    db.session.add(admin)
     db.session.commit()
 
-    user1 = User(name='u1',password='password')
-    user1.roles = [userRole]
-    account = Account(points = 100)
-    user1.account = account
-    db.session.add(user1)
-    db.session.commit()
+    for i in range(1, 10):
+        c = User(name='c'+str(i), password = 'password')
+        c.roles = [consultant, userRole]
+        profile = Profile(value=100)
+        profile.location = random.choice(locations)
+        profile.category = random.choice(categories)
+        c.profile = profile
+        db.session.add(c)
+        db.session.commit()
+
+    for i in range(1, 20):
+        u = User(name='u'+str(i),password='password')
+        u.roles = [userRole]
+        account = Account(points = 100)
+        u.account = account
+        db.session.add(u)
+        db.session.commit()
+
+
     
 
 

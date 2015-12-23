@@ -6,18 +6,19 @@
 		    <form class="ui form" action="/user/search" method="POST">
 			  <div class="field">
 			      <label>涉事地点：</label>
+
 			      <select name="location">
-			      	 <option>上海</option>
-			      	 <option>昆山</option>
-			      	 <option>苏州</option>
+                  {% for location in locations %}
+			      	 <option>{{ location.name }}</option>
+                  {% endfor %}
 			      </select>
 		      </div>
 			  <div class="field">
 			      <label>涉及业务：</label>
-			      <select name="specialty">
-			      	 <option>法律</option>
-			      	 <option>税务</option>
-			      	 <option>会计</option>
+			      <select name="category">
+                  {% for category in categories %}
+			      	 <option>{{ category.name }}</option>
+                  {% endfor %}
 			      </select>
 		      </div>
 			  <button class="ui green fluid button " type="submit">搜 索</button>
