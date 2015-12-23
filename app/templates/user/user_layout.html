@@ -1,25 +1,45 @@
 {% extends 'layout.html' %}
-{% block css%}
-{{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
 {% endblock %}
 {% block content %}
-	<div class="ui green three item inverted menu" style="margin-bottom:0;">
-	  <a class="item" href="/user/search">
-	    找专家
-	  </a>
-	  <a class="item">
-	    提问题
-	  </a>
-	  <a class="item">
-	    管理
-	  </a>
-	</div>
+    <div class="pusher">
+        <div class="ui green three item inverted menu " style="margin-bottom:0;">
+            <a class="item" href="/user/search">
+                找专家
+            </a>
+            <a class="item">
+                提问题
+            </a>
+            <a class="item">
+                管理
+                <i class="sidebar icon">
+                </i>
+            </a>
+        </div>
+        {% block sub_content %}
+        {% endblock %}
+    </div>
+    <div class="ui right vertical thin sidebar menu">
+        <a class="item">
+            Home
+        </a>
+        <a class="item">
+            Home
+        </a>
+        <a class="item">
+            Home
+        </a>
+    </div>
 {% endblock %}
 {% block scripts %}
-{{ super() }}
-<script src="{{ url_for('static', filename='js/socket.io.min.js') }}">
-</script>
-<script src="{{ url_for('static', filename='js/user.js') }}">
-</script>
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}">
+    </script>
+    <script src="{{ url_for('static', filename='js/user.js') }}">
+    </script>
+    <script>
+        $('.sidebar.menu').sidebar('attach events', '.sidebar.icon');
+    </script>
 {% endblock %}

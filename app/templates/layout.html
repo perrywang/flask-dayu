@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="height:100%!important;">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
         {% endblock %}
     </head>
-    <body>
+    <body style="height:100%!important;">
         {% block content %}
         {% endblock %}
         <div id="uid" style="display:none;">{{ session['uid'] }}</div>
