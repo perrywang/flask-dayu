@@ -88,18 +88,18 @@ def answer_for(qid):
         return render_template('consultant/answering.html',question=question)
     else:
         if question.answer == None:
-            answer = Answer(question_id=qid, by_id=current_user()['uid'], description = request.form['answer'])
+            answer = Answer(question_id=qid, by_id=current_user().id, description = request.form['answer'])
             db.session.add(answer)
             db.session.commit()
         else:
             question.answer.description = request.form['answer']
             db.session.commit()
-        return redirect('/answers/me')
+        return redirect('/questions?status=no')
 
 
 @app.route('/answers/me',methods=['GET'])
 def answer_by():
-    uid = current_user()['uid']
+    uid = current_user().id
     questions = Question.query.join(Answer).filter(Answer.by_id == uid).all()
     return render_template('consultant/consultant_questionlist.html',questions=questions)
 
