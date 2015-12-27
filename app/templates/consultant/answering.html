@@ -1,6 +1,5 @@
 {% extends 'consultant/consultant_layout.html' %}
-{% block content %}
-{{ super() }}
+{% block sub_content %}
 <div class="ui blue segment" style="width:95%;margin:2em auto;padding-top:2em;">
 	<form class="ui form" action="/answers/for/{{question.id}}" method="POST">
 		<div class="header">{{ question.submitter.name }} 问：</div>

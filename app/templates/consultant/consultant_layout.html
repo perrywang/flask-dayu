@@ -4,17 +4,68 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/consultant.css') }}">
 {% endblock %}
 {% block content %}
-	<div class="ui blue three item inverted menu" style="margin-bottom:0;">
-	  <a class="item" href="/questions?status=no">
-	    答问题
-	  </a>
-	  <a class="item" href="/answers/me">
-	    我的答案
-	  </a>
-	  <a class="item">
-	    管理
-	  </a>
-	</div>
+<div class="pusher">
+        <div class="ui blue three item inverted menu " style="margin-bottom:0;">
+            <a class="item" href="/questions?status=no">
+	            答问题
+	        </a>
+            <a class="item" href="/answers/me">
+	            我的答案
+	        </a>
+            <a class="item">
+                <span>管 理</span>
+                <i class="inverted large sidebar icon" style="margin-left:1em;"></i>
+            </a>
+        </div>
+        {% block sub_content %}
+        {% endblock %}
+</div>
+<div class="ui right vertical sidebar menu" style="width:50%;padding-top:0.5em;">
+    <div class="item">
+        <div class="header">问题管理</div>
+        <div class="ui divider" style="margin-top:1em;margin-bottom:0;"></div>
+        <div class="menu">
+            <a class="item" href="/questions?status=no">未回答问题
+                <div class="ui green label">23</div>
+            </a>
+            <div class="item">
+                <div class="ui divider" style="margin:0;"></div>
+            </div>     
+            <a class="item" href="/answers/me">已经回答
+                <div class="ui green label">15</div>
+            </a>
+            <div class="item">
+                <div class="ui divider" style="margin:0;"></div>
+            </div>     
+            <a class="item" href="/questions/to/{{ session['user']['uid'] }}?status=no">邀请我回答
+                <div class="ui gray label">8</div>
+            </a>
+        </div>
+    </div>
+    <div class="item">
+        <div class="header">个人管理</div>
+        <div class="ui divider" style="margin-top:1em;margin-bottom:0;"></div>
+        <div class="menu">
+            <a class="item" href="">累积回答点数</a>
+            <div class="item">
+                <div class="ui divider" style="margin:0;"></div>
+            </div>     
+            <a class="item" href="">个人资料
+            </a>
+            <div class="item">
+                <div class="ui divider" style="margin:0;"></div>
+            </div>     
+            <a class="item" href="/consultant/logout">退出系统
+            </a>
+        </div>
+    </div>
+    <div class="item">
+        <div id="status" class="ui toggle checkbox">
+            <input type="checkbox" name="status">
+            <label>在线</label>
+        </div>
+    </div>
+</div>
 {% endblock %}
 <h1>用户主页</h1>
 {% block scripts %}
@@ -23,4 +74,21 @@
 </script>
 <script src="{{ url_for('static', filename='js/consultant.js') }}">
 </script>
+<script>
+        $('.sidebar.menu').sidebar('attach events', '.sidebar.icon');
+        $('#status').checkbox('check').checkbox(
+            {
+                onChecked: function(){
+                    $.get('/user/online',function(){
+                        $('#status label').text('在线');
+                    });
+                },
+                onUnchecked: function(){
+                    $.get('/user/offline', function(){
+                        $('#status label').text('离线');
+                    });
+                }
+            }
+        );
+    </script>
 {% endblock %}
