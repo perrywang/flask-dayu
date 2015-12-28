@@ -45,6 +45,8 @@ def user_login():
 @auth_required
 def user_logout():
     session.pop('user', None)
+    current_user().status = 'offline'
+    db.session.commit()
     return redirect('/user/login')
 
 

@@ -12,7 +12,7 @@
             <a class="item" href="/answers/me">
 	            我的答案
 	        </a>
-            <a class="item">
+            <a id="sidebar-trigger" class="item">
                 <span>管 理</span>
                 <i class="inverted large sidebar icon" style="margin-left:1em;"></i>
             </a>
@@ -75,7 +75,7 @@
 <script src="{{ url_for('static', filename='js/consultant.js') }}">
 </script>
 <script>
-        $('.sidebar.menu').sidebar('attach events', '.sidebar.icon');
+        $('.sidebar.menu').sidebar('attach events', '#sidebar-trigger');
         $('#status').checkbox('check').checkbox(
             {
                 onChecked: function(){

@@ -34,6 +34,8 @@ def consultant_login():
 @role_required(roles=['consultant','admin'])
 def consultant_logout():
     session.pop('user', None)
+    current_user().status = 'offline'
+    db.session.commit()
     return redirect('/consultant/login')
 
 @app.route('/consultant/home')
