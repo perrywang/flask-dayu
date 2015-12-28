@@ -34,7 +34,7 @@ def edit_question(qid):
 def create_question():
     toid = request.args.get('to', '')
     if not toid == '':
-        question = Question(submitter_id=session['user']['uid'], to_id=int(toid), description=request.form['description'])
+        question = Question(submitter_id=current_user().id, to_id=int(toid), description=request.form['description'])
         db.session.add(question)
         db.session.commit()
         socketio.emit('question_added', 'question created', room='consultants', namespace='/consultants')

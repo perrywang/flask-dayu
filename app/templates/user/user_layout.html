@@ -55,14 +55,8 @@
                 <div class="item">
                     <div class="ui divider" style="margin:0;"></div>
                 </div>     
-                <a class="item" href="">退出系统
+                <a class="item" href="/user/logout">退出系统
                 </a>
-            </div>
-        </div>
-        <div class="item">
-            <div id="status" class="ui toggle checkbox">
-                <input type="checkbox" name="status">
-                <label>在线</label>
             </div>
         </div>
     </div>
@@ -75,19 +69,5 @@
     </script>
     <script>
         $('.sidebar.menu').sidebar('attach events', '.sidebar.icon');
-        $('#status').checkbox('check').checkbox(
-            {
-                onChecked: function(){
-                    $.get('/user/online',function(){
-                        $('#status label').text('在线');
-                    });
-                },
-                onUnchecked: function(){
-                    $.get('/user/offline', function(){
-                        $('#status label').text('离线');
-                    });   
-                }
-            }
-        );
     </script>
 {% endblock %}

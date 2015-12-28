@@ -1,10 +1,11 @@
 $(function(){
 	$('select').dropdown();
 });
-var socket = io.connect('http://' + document.domain + ':' + location.port + '/users');
+/*var socket = io.connect('http://' + document.domain + ':' + location.port + '/users');
 socket.on('connect', function(data) {
-    console.log('hello');
+    //console.log('hello');
     socket.on('answer_added',function(data){
-         console.log(data);
+         //console.log(data);
     });
 });
+*/
