@@ -30,7 +30,7 @@ def user_login():
     if authenticated():
         return redirect('/user/home')
     elif request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html', isConsultant = False)
     if request.method == 'POST':
         logging_user = validate_login(request.form['username'], request.form['password'])
         if logging_user is not None:

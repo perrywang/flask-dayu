@@ -10,17 +10,25 @@
 <body>
     <div class="ui middle aligned grid" style="margin:0;height:80%">
     	<div class="column">
+            {% if isConsultant %}
+            <h3 class="ui blue center aligned header">大愚律师税务会计咨询系统</h3>
+            {% else %}
     	    <h3 class="ui green center aligned header">大愚律师税务会计咨询系统</h3>
+            {% endif %}
     		<form class="ui form" action="{{ request.path }}" method="POST" style="margin-top:3em;">
 			  <div class="field">
 			    <label>用户名：</label>
 			    <input type="text" name="username" placeholder="用户名">
 			  </div>
-			  <div class="field">
+			  <div class="field" style="margin-top:2em;">
 			      <label>密码：</label>
 			      <input type="password" name="password" placeholder="密码">
 		      </div>
+              {% if isConsultant %}
+              <button class="ui blue fluid button " type="submit">登 录</button>
+              {% else %}
 			  <button class="ui green fluid button " type="submit">登 录</button>
+              {% endif %}
 			</form>
     	</div>
     </div>   

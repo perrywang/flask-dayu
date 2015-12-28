@@ -20,7 +20,7 @@ def consultant_login():
     if authenticated():
         return redirect('/consultant/home')
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html',isConsultant = True)
     if request.method == 'POST':
         logging_user = validate_login(request.form['username'], request.form['password'])
         if logging_user is not None:
