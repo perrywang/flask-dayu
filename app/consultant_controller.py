@@ -1,6 +1,6 @@
-from flask import request, render_template, redirect, url_for, session
-from app import app
-from auth import validate_login, authenticated, role_required, register_consultant
+from flask import request, render_template, redirect, url_for, session, abort
+from app import app,db
+from auth import validate_login, authenticated, role_required, register_consultant, current_user
 
 
 @app.route('/consultant/register',methods = ['GET','POST'])
@@ -33,9 +33,10 @@ def consultant_login():
 @app.route('/consultant/logout')
 @role_required(roles=['consultant','admin'])
 def consultant_logout():
-    session.pop('user', None)
-    current_user().status = 'offline'
+    user = current_user()
+    user.status = 'offline'
     db.session.commit()
+    session.pop('user', None)
     return redirect('/consultant/login')
 
 @app.route('/consultant/home')

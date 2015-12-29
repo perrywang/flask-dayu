@@ -44,9 +44,9 @@ def user_login():
 @app.route('/user/logout')
 @auth_required
 def user_logout():
-    session.pop('user', None)
     current_user().status = 'offline'
     db.session.commit()
+    session.pop('user', None)
     return redirect('/user/login')
 
 
