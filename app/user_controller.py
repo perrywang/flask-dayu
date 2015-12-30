@@ -28,7 +28,7 @@ def register():
 @app.route('/user/login',methods=['GET','POST'])
 def user_login():
     if authenticated():
-        if session['login_url'] == '/consultant/login':
+        if session['login_url'] == '/consultant/login' and has_role(['consultant','admin']):
             return redirect('/consultant/home')
         else:
             return redirect('/user/home')

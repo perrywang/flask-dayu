@@ -18,7 +18,7 @@ def consultant_register():
 @app.route('/consultant/login',methods=['GET','POST'])
 def consultant_login():
     if authenticated():
-        if has_role(['consultant','admin']):
+        if session['login_url'] == '/consultant/login' and has_role(['consultant','admin']):
             return redirect('/consultant/home')
         else:
             return redirect('/user/home')
