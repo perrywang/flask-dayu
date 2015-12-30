@@ -4,6 +4,7 @@ from app import app, db, socketio
 from auth import auth_required, current_user
 
 @app.route('/questions/new')
+@auth_required
 def new_question():
     cid = request.args.get('to', '')
     consultant = None
@@ -12,14 +13,17 @@ def new_question():
         return render_template('user/questioning.html', to=consultant, question=None)
 
 @app.route('/quick/new')
+@auth_required
 def quick_new_question():
     return render_template('user/quickquestioning.html', question=None)
 
 @app.route('/quick/create')
+@auth_required
 def quick_create_question():
     pass
 
 @app.route('/questions/<int:qid>/edit',methods=['GET','POST'])
+@auth_required
 def edit_question(qid):
     question = Question.query.get(qid)
     if request.method == 'GET':
@@ -41,6 +45,7 @@ def create_question():
         return redirect('/questions/by/'+str(current_user().id))
 
 @app.route('/questions')
+@auth_required('/consultant/login')
 def questions():
     status = request.args.get('status','all')
     if status == 'all':
@@ -53,6 +58,7 @@ def questions():
     return render_template('consultant/consultant_questionlist.html',questions=questions)
 
 @app.route('/questions/by/<int:uid>')
+@auth_required
 def questions_by(uid):
     status = request.args.get('status','all')
     if status == 'all':
@@ -66,6 +72,7 @@ def questions_by(uid):
     return render_template('user/user_questionlist.html',questions=questions)
 
 @app.route('/questions/to/<int:uid>')
+@auth_required('/consultant/login')
 def questions_to(uid):
     status = request.args.get('status','all')
     if status == 'all':
@@ -78,10 +85,12 @@ def questions_to(uid):
     return render_template('consultant/consultant_questionlist.html',questions=questions)
 
 @app.route('/questions/<int:qid>')
+@auth_required
 def question(qid):
     pass
 
 @app.route('/answers/for/<int:qid>',methods=['GET','POST'])
+@auth_required('/consultant/login')
 def answer_for(qid):
     question = Question.query.get(qid)
     if request.method == 'GET':
@@ -98,11 +107,13 @@ def answer_for(qid):
 
 
 @app.route('/answers/me',methods=['GET'])
+@auth_required('/consultant/login')
 def answer_by():
     uid = current_user().id
     questions = Question.query.join(Answer).filter(Answer.by_id == uid).all()
     return render_template('consultant/consultant_questionlist.html',questions=questions)
 
 @app.route('/answers/<int:aid>')
+@auth_required
 def answer(aid):
     pass
