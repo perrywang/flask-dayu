@@ -1,6 +1,6 @@
 from flask import request, render_template, redirect, url_for, session, abort
 from app import app,db
-from auth import validate_login, authenticated, role_required, register_consultant, current_user, has_role
+from auth import validate_login, authenticated, auth_required, role_required, register_consultant, current_user, has_role
 
 
 @app.route('/consultant/register',methods = ['GET','POST'])
@@ -48,6 +48,7 @@ def consultant_logout():
     return redirect('/consultant/login')
 
 @app.route('/consultant/home')
+@auth_required
 @role_required(roles=['consultant','admin'])
 def consultant_home():
     return render_template('consultant/home.html')
