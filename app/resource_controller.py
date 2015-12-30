@@ -4,7 +4,7 @@ from app import app, db, socketio
 from auth import auth_required, current_user
 
 @app.route('/questions/new')
-@auth_required
+@auth_required()
 def new_question():
     cid = request.args.get('to', '')
     consultant = None
@@ -13,17 +13,17 @@ def new_question():
         return render_template('user/questioning.html', to=consultant, question=None)
 
 @app.route('/quick/new')
-@auth_required
+@auth_required()
 def quick_new_question():
     return render_template('user/quickquestioning.html', question=None)
 
 @app.route('/quick/create')
-@auth_required
+@auth_required()
 def quick_create_question():
     pass
 
 @app.route('/questions/<int:qid>/edit',methods=['GET','POST'])
-@auth_required
+@auth_required()
 def edit_question(qid):
     question = Question.query.get(qid)
     if request.method == 'GET':
@@ -34,7 +34,7 @@ def edit_question(qid):
         return redirect('/questions/by/' + str(current_user().id))
 
 @app.route('/questions/create', methods=['POST'])
-@auth_required
+@auth_required()
 def create_question():
     toid = request.args.get('to', '')
     if not toid == '':
@@ -58,7 +58,7 @@ def questions():
     return render_template('consultant/consultant_questionlist.html',questions=questions)
 
 @app.route('/questions/by/<int:uid>')
-@auth_required
+@auth_required()
 def questions_by(uid):
     status = request.args.get('status','all')
     if status == 'all':
@@ -85,7 +85,7 @@ def questions_to(uid):
     return render_template('consultant/consultant_questionlist.html',questions=questions)
 
 @app.route('/questions/<int:qid>')
-@auth_required
+@auth_required()
 def question(qid):
     pass
 
@@ -114,6 +114,6 @@ def answer_by():
     return render_template('consultant/consultant_questionlist.html',questions=questions)
 
 @app.route('/answers/<int:aid>')
-@auth_required
+@auth_required()
 def answer(aid):
     pass

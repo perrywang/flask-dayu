@@ -48,12 +48,13 @@ def consultant_logout():
     return redirect('/consultant/login')
 
 @app.route('/consultant/home')
-@auth_required
+@auth_required()
 @role_required(roles=['consultant','admin'])
 def consultant_home():
     return render_template('consultant/home.html')
 
 
 @app.route('/consultant/<int:uid>/questions')
+@auth_required()
 def asking_to(uid):
     pass

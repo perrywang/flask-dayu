@@ -46,7 +46,7 @@ def user_login():
 
 
 @app.route('/user/logout')
-@auth_required
+@auth_required()
 def user_logout():
     current_user().status = 'offline'
     db.session.commit()
@@ -56,13 +56,13 @@ def user_logout():
 
 
 @app.route('/user/home')
-@auth_required
+@auth_required()
 def user_home():
     return render_template('user/home.html')
 
 
 @app.route('/user/search',methods=['GET', 'POST'])
-@auth_required
+@auth_required()
 def user_search():
     if request.method == 'GET':
         locations = Location.query.all();
@@ -75,13 +75,13 @@ def user_search():
         return render_template('user/consultlist.html',consultants=consultants)
 
 @app.route('/user/<int:uid>/questions')
-@auth_required
+@auth_required()
 def questions_submitted_by(uid):
     pass
 
 
 @app.route('/user/online')
-@auth_required
+@auth_required()
 def user_online():
     #user = User.query.get(session['user']['uid'])
     user = current_user()
@@ -90,7 +90,7 @@ def user_online():
     return 'online'
 
 @app.route('/user/offline')
-@auth_required
+@auth_required()
 def user_offline():
     #user = User.query.get(session['user']['uid'])
     user = current_user();
