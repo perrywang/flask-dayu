@@ -29,6 +29,7 @@ def consultant_login():
         if logging_user is not None:
             session.permanent = True
             session['user'] = {'username':logging_user.name, 'uid':logging_user.id, 'roles':[role.name for role in logging_user.roles]}
+            session['login_url'] = '/consultant/login'
             if has_role(['consultant','admin']):
                 return redirect('/consultant/home')
             else:
@@ -43,6 +44,7 @@ def consultant_logout():
     user.status = 'offline'
     db.session.commit()
     session.pop('user', None)
+    session.pop('login_url', None)
     return redirect('/consultant/login')
 
 @app.route('/consultant/home')
