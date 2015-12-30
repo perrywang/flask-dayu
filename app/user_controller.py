@@ -48,7 +48,6 @@ def user_logout():
     current_user().status = 'offline'
     db.session.commit()
     session.pop('user', None)
-    session.pop('login_from',None)
     return redirect('/user/login')
 
 
