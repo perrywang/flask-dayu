@@ -1,6 +1,6 @@
 from flask import request, render_template, redirect, url_for, session, abort
 from app import app,db
-from auth import validate_login, authenticated, role_required, register_consultant, current_user
+from auth import validate_login, authenticated, role_required, register_consultant, current_user, has_role
 
 
 @app.route('/consultant/register',methods = ['GET','POST'])
@@ -18,7 +18,10 @@ def consultant_register():
 @app.route('/consultant/login',methods=['GET','POST'])
 def consultant_login():
     if authenticated():
-        return redirect('/consultant/home')
+        if session['login_from'] == '/user/login':
+            return redirect('/user/home')
+        else:
+            return redirect('/consultant/home')
     if request.method == 'GET':
         return render_template('login.html',isConsultant = True)
     if request.method == 'POST':
@@ -26,7 +29,11 @@ def consultant_login():
         if logging_user is not None:
             session.permanent = True
             session['user'] = {'username':logging_user.name, 'uid':logging_user.id, 'roles':[role.name for role in logging_user.roles]}
-            return redirect('/consultant/home')
+            session['login_from'] = '/consultant/login'
+            if has_role(['consultant','admin']):
+                return redirect('/consultant/home')
+            else:
+                return redirect('/user/home')
         else:
             abort(401)
 
@@ -37,6 +44,7 @@ def consultant_logout():
     user.status = 'offline'
     db.session.commit()
     session.pop('user', None)
+    session.pop('login_from',None)
     return redirect('/consultant/login')
 
 @app.route('/consultant/home')

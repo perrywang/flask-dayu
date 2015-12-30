@@ -36,6 +36,7 @@ def user_login():
         if logging_user is not None:
             session.permanent = True
             session['user'] = {'username':logging_user.name, 'uid':logging_user.id, 'roles':[role.name for role in logging_user.roles]}
+            session['login_from'] = '/user/login'
             return redirect('/user/home')
         else:
             return 'login failed'
@@ -47,6 +48,7 @@ def user_logout():
     current_user().status = 'offline'
     db.session.commit()
     session.pop('user', None)
+    session.pop('login_from',None)
     return redirect('/user/login')
 
 
