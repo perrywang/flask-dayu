@@ -7,7 +7,7 @@ from models import User, Role, Profile, Category, Location
 
 
 def auth_required(redirect='/user/login'):
-    def decorate(func)
+    def decorate(func):
         redirect_url = redirect
 
         @wraps(func)
