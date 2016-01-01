@@ -6,19 +6,17 @@ from app import db
 from models import User, Role, Profile, Category, Location
 
 
-def auth_required(func):
-    @wraps(func)
-    def wrapper(*args, **kargs):
-        if authenticated():
-            return func(*args, **kargs)
-        elif request.path.startswith('/user'):
-            return redirect('/user/login')
-        elif request.path.startswith('/consultant'):
-            return redirect('/consultant/login')
-        else:
-            return redirect('/user/login')
-
-    return wrapper
+def auth_required(redirect_url='/user/login'):
+    def decorate(func):
+        redirectPage = redirect_url   
+        @wraps(func)
+        def wrapper(*args, **kargs):
+            if authenticated():
+                return func(*args, **kargs)
+            else:
+                return redirect(redirectPage)
+        return wrapper
+    return decorate
 
 
 def role_required(roles=['user']):
