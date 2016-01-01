@@ -98,3 +98,8 @@ def user_offline():
     return 'offline'
 
 
+@app.route('/user/dashboard')
+@auth_required()
+def user_dashboard():
+    return render_template('user/user_dashboard.html')
+

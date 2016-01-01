@@ -1,0 +1,48 @@
+{% extends 'user/user_layout.html' %}
+{% block sub_content %}
+<div class="ui secondary purple pointing menu" style="width:95%;margin:1em 0 0 0;">
+  <a class="active item">
+    提问历史
+  </a>
+  <a class="item">
+    回答占比
+  </a>
+  <a class="item">
+    好评占比
+  </a>
+</div>
+<div id="chartContainer" style="height:450px;">
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/plotly.min.js') }}">
+    </script>
+    <script type="text/javascript">
+    var data = [
+				  {
+				    x: ['六月','七月','八月','九月', '十月', '十一月'],
+				    y: [43, 27, 35, 17, 22, 47],
+				    type: 'bar',
+				    opacity:0.5,
+				    marker:{
+				    	color:'green',
+				    	line:{
+				    		color:'blue'
+				    	}
+				    }
+				  }
+				];
+    var layout = {
+				    title: '最近六个月提问历史',
+				    margin:{
+				    	l:50,
+				    	r:50
+				    },
+				    bargap:0.5
+
+				};
+
+    Plotly.newPlot('chartContainer', data,layout, {displayModeBar: false});
+    </script>
+{% endblock %}
