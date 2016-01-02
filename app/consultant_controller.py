@@ -18,10 +18,7 @@ def consultant_register():
 @app.route('/consultant/login',methods=['GET','POST'])
 def consultant_login():
     if authenticated():
-        if session['login_url'] == '/consultant/login' and has_role(['consultant','admin']):
-            return redirect('/consultant/home')
-        else:
-            return redirect('/user/home')
+        return redirect(session['last_url'])
     if request.method == 'GET':
         return render_template('login.html',isConsultant = True)
     if request.method == 'POST':
@@ -29,9 +26,11 @@ def consultant_login():
         if logging_user is not None:
             session.permanent = True
             session['user'] = {'username':logging_user.name, 'uid':logging_user.id, 'roles':[role.name for role in logging_user.roles]}
-            session['login_url'] = '/consultant/login'
             if has_role(['consultant','admin']):
-                return redirect('/consultant/home')
+                if 'last_url' in session:
+                    return redirect(session['last_url'])
+                else:
+                    return redirect('/consultant/home')
             else:
                 return redirect('/user/home')
         else:
@@ -44,7 +43,7 @@ def consultant_logout():
     user.status = 'offline'
     db.session.commit()
     session.pop('user', None)
-    session.pop('login_url', None)
+    session.pop('last_url', None)
     return redirect('/consultant/login')
 
 @app.route('/consultant/home')
@@ -60,6 +59,6 @@ def asking_to(uid):
     return render_template('consultant/home.html')
 
 @app.route('/consultant/dashboard')
-@auth_required()
+@auth_required('/consultant/login')
 def consultant_dashboard():
     return render_template('consultant/consultant_dashboard.html')

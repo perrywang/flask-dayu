@@ -11,8 +11,9 @@ app.secret_key = 'secret'
 db = SQLAlchemy(app)
 socketio = SocketIO(app)
 
-@app.route('/')
-def home():
-    return 'hello dayu'
+@app.before_request
+def before_any_request():
+    if not request.path.endswith('/login') and '/static/' not in request.path:
+        session['last_url'] = request.path
 
 import controllers

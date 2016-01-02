@@ -27,10 +27,7 @@ def register():
 @app.route('/user/login',methods=['GET','POST'])
 def user_login():
     if authenticated():
-        if session['login_url'] == '/consultant/login' and has_role(['consultant','admin']):
-            return redirect('/consultant/home')
-        else:
-            return redirect('/user/home')
+        return redirect(session['last_url'])
     elif request.method == 'GET':
         return render_template('login.html', isConsultant = False)
     if request.method == 'POST':
@@ -38,8 +35,10 @@ def user_login():
         if logging_user is not None:
             session.permanent = True
             session['user'] = {'username':logging_user.name, 'uid':logging_user.id, 'roles':[role.name for role in logging_user.roles]}
-            session['login_url'] = '/user/login'
-            return redirect('/user/home')
+            if 'last_url' in session:
+                return redirect(session['last_url'])
+            else:
+                return redirect('/user/home')
         else:
             return 'login failed'
 
@@ -50,7 +49,7 @@ def user_logout():
     current_user().status = 'offline'
     db.session.commit()
     session.pop('user', None)
-    session.pop('login_url', None)
+    session.pop('last_url', None)
     return redirect('/user/login')
 
 
