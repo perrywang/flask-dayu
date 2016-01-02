@@ -1,0 +1,51 @@
+{% extends 'consultant/consultant_layout.html' %}
+{% block sub_content %}
+<div class="ui secondary purple pointing menu" style="width:95%;margin:1em 0 0 1em;">
+  <a class="item">
+    回答历史统计
+  </a>
+  <a class="item">
+    回答/未回答统计
+  </a>
+  <a class="active item">
+    满意率统计
+  </a>
+</div>
+<div id="chartContainer" style="height:450px;">
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/plotly.min.js') }}">
+    </script>
+    <script type="text/javascript">
+    var data = [
+				  {
+				    labels: ['非常满意','满意','不满意'],
+				    values: [53, 40, 7],
+				    type: 'pie',
+				    opacity: 0.6,
+				    textfont:{
+				    	color:'white'
+				    },
+
+				    marker:{
+				    	colors:['green','mediumblue','red'],
+				    	line:{
+				    		color:'white',
+				    		width:1
+				    	}
+				    }
+				  }
+				];
+    var layout = {
+				    title: '回答满意率统计',
+				    margin:{
+				    	l:50,
+				    	r:50
+				    }
+				};
+
+    Plotly.newPlot('chartContainer', data,layout, {displayModeBar: false});
+    </script>
+{% endblock %}

@@ -58,3 +58,8 @@ def consultant_home():
 @auth_required('/consultant/login')
 def asking_to(uid):
     return render_template('consultant/home.html')
+
+@app.route('/consultant/dashboard')
+@auth_required()
+def consultant_dashboard():
+    return render_template('consultant/consultant_dashboard.html')
