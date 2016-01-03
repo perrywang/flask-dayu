@@ -15,6 +15,7 @@ socketio = SocketIO(app)
 def before_any_request():
     path = request.path
     if not path.endswith('/login') and not path.endswith('/home') and '/static/' not in path:
-        session['last_url'] = request.path
+        if 'user' in session:
+            session['last_url'] = request.path
 
 import controllers
