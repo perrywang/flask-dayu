@@ -27,8 +27,11 @@ def role_required(roles=['user']):
         def wrapper(*args, **kargs):
             if authenticated() and has_role(required_roles):
                 return func(*args, **kargs)
+            elif authenticated():
+                return redirect('/user/home')
             else:
-                return abort(403)
+                return redirect('/user/login')
+                
         return wrapper
 
     return decorate
