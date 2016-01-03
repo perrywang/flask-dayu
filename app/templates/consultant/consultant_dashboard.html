@@ -50,6 +50,8 @@
     $('#answer_history').click(function(event){
     	event.preventDefault();
     	event.stopPropagation();
+    	$('secondary.menu a.item').removeClass('active');
+    	$(this).addClass('active');
     	var data = [
 				  {
 				    x: ['六月','七月','八月','九月', '十月', '十一月'],
