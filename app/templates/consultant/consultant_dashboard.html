@@ -1,7 +1,7 @@
 {% extends 'consultant/consultant_layout.html' %}
 {% block sub_content %}
 <div class="ui secondary purple pointing menu" style="width:95%;margin:1em 0 0 1em;">
-  <a class="item">
+  <a id="answer_history" class="item">
     回答历史统计
   </a>
   <a class="item">
@@ -47,5 +47,34 @@
 				};
 
     Plotly.newPlot('chartContainer', data,layout, {displayModeBar: false});
+    $('#answer_history').click(function(event){
+    	event.preventDefault();
+    	event.stopPropagation();
+    	var data = [
+				  {
+				    x: ['六月','七月','八月','九月', '十月', '十一月'],
+				    y: [43, 27, 35, 17, 22, 47],
+				    type: 'bar',
+				    opacity:0.5,
+				    marker:{
+				    	color:'blue',
+				    	line:{
+				    		color:'green'
+				    	}
+				    }
+				  }
+				];
+	    var layout = {
+					    title: '最近六个月回答历史',
+					    margin:{
+					    	l:50,
+					    	r:50
+					    },
+					    bargap:0.5
+
+					};
+
+	    Plotly.newPlot('chartContainer', data,layout, {displayModeBar: false});
+    });
     </script>
 {% endblock %}
