@@ -16,6 +16,8 @@ def before_any_request():
     path = request.path
     if not path.endswith('/login') and not path.endswith('/home') and '/static/' not in path:
         if 'user' in session:
-            session['last_url'] = request.path
+            if request.query_string is not None:
+                path = path + '?' + request.query_string
+            session['last_url'] = path
 
 import controllers
