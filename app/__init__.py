@@ -11,6 +11,10 @@ app.secret_key = 'secret'
 db = SQLAlchemy(app)
 socketio = SocketIO(app)
 
+@app.errorhandler(Exception)
+def all_exception_handler(error):
+    return redirect('/user/logout')
+
 @app.before_request
 def before_any_request():
     path = request.path
