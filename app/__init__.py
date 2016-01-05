@@ -3,12 +3,17 @@
 from flask import Flask, render_template, redirect, request, session
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
+from flask.ext.compress import Compress
+
+
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dayu.db'
 app.secret_key = 'secret'
 db = SQLAlchemy(app)
+compress = Compress()
+compress.init_app(app)
 socketio = SocketIO(app)
 
 @app.errorhandler(500)
