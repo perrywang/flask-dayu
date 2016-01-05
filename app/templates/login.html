@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>大愚律税财咨询系统</title>
+    <title>瀛成律税财服务平台</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/semantic.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
@@ -11,9 +11,9 @@
     <div class="ui middle aligned grid" style="margin:0;height:80%">
     	<div class="column">
             {% if isConsultant %}
-            <h3 class="ui blue center aligned header">大愚律师税务会计咨询系统</h3>
+            <h3 class="ui blue center aligned header">瀛成律税财服务平台</h3>
             {% else %}
-    	    <h3 class="ui green center aligned header">大愚律师税务会计咨询系统</h3>
+    	    <h3 class="ui green center aligned header">瀛成律税财服务平台</h3>
             {% endif %}
     		<form class="ui form" action="{{ request.path }}" method="POST" style="margin-top:3em;">
 			  <div class="field">
