@@ -27,10 +27,7 @@ def consultant_login():
             session.permanent = True
             session['user'] = {'username':logging_user.name, 'uid':logging_user.id, 'roles':[role.name for role in logging_user.roles]}
             if has_role(['consultant','admin']):
-                if 'last_url' in session:
-                    return redirect(session['last_url'])
-                else:
-                    return redirect('/consultant/home')
+                return redirect('/consultant/home')
             else:
                 return redirect('/user/home')
         else:
@@ -60,5 +57,6 @@ def asking_to(uid):
 
 @app.route('/consultant/dashboard')
 @auth_required('/consultant/login')
+@role_required(roles=['consultant','admin'])
 def consultant_dashboard():
     return render_template('consultant/consultant_dashboard.html')
