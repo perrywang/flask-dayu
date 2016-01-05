@@ -35,10 +35,7 @@ def user_login():
         if logging_user is not None:
             session.permanent = True
             session['user'] = {'username':logging_user.name, 'uid':logging_user.id, 'roles':[role.name for role in logging_user.roles]}
-            if 'last_url' in session:
-                return redirect(session['last_url'])
-            else:
-                return redirect('/user/home')
+            return redirect('/user/home')
         else:
             return 'login failed'
 

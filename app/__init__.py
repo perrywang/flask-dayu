@@ -15,13 +15,17 @@ socketio = SocketIO(app)
 def all_exception_handler(error):
     return redirect('/user/logout')
 
-@app.before_request
-def before_any_request():
+@app.errorhandler(401)
+def no_authorization_handler(error):
+    return redirect(session['last_url'])
+
+@app.after_request
+def after_any_request(response):
     path = request.path
-    if not path.endswith('/login') and not path.endswith('/home') and '/static/' not in path:
-        if 'user' in session:
-            if request.query_string is not None:
-                path = path + '?' + request.query_string
-            session['last_url'] = path
+    if request.method == 'GET' and '/static/' not in path:
+        if request.query_string is not None:
+            path = path + '?' + request.query_string
+        session['last_url'] = path
+    return response
 
 import controllers
