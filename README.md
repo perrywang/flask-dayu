@@ -1,3 +1,10 @@
+#consulting system based Python Flask framework for weixin platform
+
+## Core concepts
+**Role** admin, consultant, user  
+**Real time** WebSocket support  
+**Dashboard** Basic chart support
+
 # flask-dayu
     git clone https://github.com/perrywang/flask-dayu.git
     cd flask-dayu
