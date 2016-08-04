@@ -5,7 +5,7 @@
 **Real time** WebSocket support  
 **Dashboard** Basic chart support
 
-# flask-dayu
+## Build
     git clone https://github.com/perrywang/flask-dayu.git
     cd flask-dayu
     pip install -r requirements.txt
