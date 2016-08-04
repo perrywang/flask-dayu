@@ -1,4 +1,4 @@
-# Consulting system based Flask framework for weixin
+# Consulting system based Flask framework for Weixin
 
 ## Core concepts
 **Role** admin, consultant, user  
